@@ -4,6 +4,8 @@
 # it uses GitHub's gitignore templates
 # the fist command line argument is the name of template to use
 
+GITIGNORE_REPO="https://github.com/github/gitignore.git"
+
 # check if user have git installed
 if ! command -v git &> /dev/null
 then
@@ -14,7 +16,7 @@ fi
 # check if gitignore repo is cloned under ~/.config/gitignore.repo
 # if not, clone it
 if [ ! -d ~/.config/gitignore.repo ]; then
-    git clone https://github.com/github/gitignore.git $HOME/.config/gitignore.repo &> /dev/null
+    git clone $GITIGNORE_REPO $HOME/.config/gitignore.repo &> /dev/null
 fi
 
 # try pulling the latest changes
@@ -56,5 +58,7 @@ else
     cp $template_file .gitignore
 fi
 
-# add the file to git
-# git add .gitignore
+# add the file to git if the current directory is a git repo
+if [ -d .git ]; then
+    git add .gitignore
+fi
